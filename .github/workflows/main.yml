@@ -55,7 +55,7 @@ jobs:
         registry: ${{ secrets.REGISTERY }}
         repo: ${{ env.ECR_REPOSITRY }}
         region: ${{ env.AWS_REGION }}
-        tags: latest,${{ github.run_number }}
+        tags: latest,${{github.run_number}}
         daemon_off: false
         dockerfile: ./Dockerfile
         context: ./
@@ -81,7 +81,7 @@ jobs:
       run: cat ~/.kube/config
 
     - name: Login to ECR
-      run: kubectl create secret docker-registry regcreds --docker-server=${{ secrets.REGISTERY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password)
+      run: kubectl create secret docker-registry reg --docker-server=${{ secrets.REGISTERY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password)
 
     - name: Deploy Helm
       uses: bitovi/github-actions-deploy-eks-helm@v1.2.12
@@ -93,5 +93,5 @@ jobs:
         #config-files: .github/values/dev.yaml
         chart-path: helm/vprofilecharts
         namespace: default
-        values: appimage=${{ secrets.REGISTERY }}/${{ env.ECR_REPOSITRY }},apptag=${{ github.run_number }}
+        values: appimage=${{secrets.REGISTERY}}/${{env.ECR_REPOSITRY}},apptag=${{github.run_number}}
         name: vprofile-stack
